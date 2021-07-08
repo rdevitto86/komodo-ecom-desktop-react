@@ -6,7 +6,7 @@ import { AddressJSON } from '../address';
  export interface CompanyJSON {
     name: string;
     contactName: string;
-    contactEmail: string;
+    contactEmail?: string;
     contactPhone?: string;
     address: AddressJSON;
 }
@@ -17,5 +17,7 @@ import { AddressJSON } from '../address';
  * @returns {boolean} true/false
  */
  export function isCompany(obj: any): obj is CompanyJSON {
-    return 'name' in obj && 'contactName' in obj && 'contactEmail' in obj;
+    return 'name' in obj 
+        && 'contactName' in obj 
+        && 'address' in obj;
 }

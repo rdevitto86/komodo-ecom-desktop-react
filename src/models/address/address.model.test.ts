@@ -19,7 +19,7 @@ describe('Address Model tests', () => {
         country: 'US',
     });
 
-    test('model w/ params fully instatiates model', () => {
+    test('model with all properties', () => {
         const {
             line1,
             line2,
@@ -39,7 +39,7 @@ describe('Address Model tests', () => {
         expect(country).toBe('US');
     });
 
-    test('model w/ params partially instatiates model', () => {
+    test('model with partial properties', () => {
         const {
             line1,
             line2,
@@ -59,7 +59,7 @@ describe('Address Model tests', () => {
         expect(country).toBe('US');
     });
 
-    test('model w/ no params', () => {
+    test('model with no params', () => {
         const {
             line1,
             line2,
@@ -79,7 +79,7 @@ describe('Address Model tests', () => {
         expect(country).toBe(null);
     });
 
-    test('model w/ another address model', () => {
+    test('mapping one Address model to another', () => {
         const {
             line1,
             line2,

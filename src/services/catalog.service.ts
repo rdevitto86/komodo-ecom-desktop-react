@@ -1,7 +1,7 @@
 import { isString } from 'class-validator';
 import HTTP from 'src/npm/kfs-web/src/http';
 import HttpException from 'src/npm/kfs-web/src/http-exceptions';
-import CatalogItem from '../models/catalog-items/catalog-item.model';
+import CatalogItem from '../models/catalog-item/catalog-item.model';
 import { GetItemResponse } from '../npm/kfs-api/src/catalog-api/responses/get-item';
 import { GetCategoryItemsResponse } from '../npm/kfs-api/src/catalog-api/responses/get-items';
 import { CatalogItemJSON } from '../npm/kfs-api/src/catalog-api/types/catalog-item';

@@ -1,5 +1,4 @@
 import { OrderLineItemJSON } from '../order-line-item';
-import { PromotionJSON } from '../../../promotion-api/schemas/promotion';
 
 /**
  * mapping of invoice status/progress
@@ -25,26 +24,29 @@ export type TrackingInfo = {
  */
 export interface OrderJSON {
     id: string;
-    status?: number;
+    status: number;
     lineItems: OrderLineItemJSON[];
     total: number;
     subTotal: number;
-    salesTax: number;
-    salesTaxRate: number;
-    shippingCost: number;
-    shippingRate: number;
-    fees: number;
+    salesTax?: number;
+    salesTaxRate?: number;
+    shippingCost?: number;
+    shippingRate?: number;
+    fees?: number;
     trackingNumbers?: TrackingInfo;
     serviceDates?: TrackingInfo;
-    promotion?: PromotionJSON;
     enablePromotions?: boolean;
 }
 
 /**
- * Checks if an item is an OrderInvoice type object
+ * Checks if an item is an OrderJSON type object
  * @param {any} obj object to reference
  * @returns {boolean} true/false
  */
  export function isOrder(obj: any): obj is OrderJSON {
-    return 'id' in obj && 'lineItems' in obj && 'subTotal' in obj;
+    return 'id' in obj 
+        && 'status' in obj 
+        && 'lineItems' in obj 
+        && 'total' in obj
+        && 'subTotal' in obj;
 }

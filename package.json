@@ -11,6 +11,7 @@
     "start:debug": "",
     "start:prod": "",
     "test": "jest",
+    "test:dev": "jest --watch",
     "test:cov": "jest --coverage",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
     "eject": "react-scripts eject"

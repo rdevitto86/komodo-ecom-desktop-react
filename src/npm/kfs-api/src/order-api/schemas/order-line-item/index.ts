@@ -1,15 +1,12 @@
-import { CatalogItemJSON } from '../../../catalog-api/types/catalog-item';
-
 /**
  * Defines an abstract OrderLineItem object
  */
  export interface OrderLineItemJSON {
     id: string;
-    details: CatalogItemJSON;
-    basePrice: number;
-    quantity: number;
-    netCost: number;
-    promotion?: PromotionJSON;
+    // details: CatalogItemJSON;
+    // basePrice: number;
+    // quantity: number;
+    // netCost: number;
 }
 
 /**
@@ -18,5 +15,7 @@ import { CatalogItemJSON } from '../../../catalog-api/types/catalog-item';
  * @returns {boolean} true/false
  */
 export function isOrderLineItem(obj: any): obj is OrderLineItemJSON {
-    return 'id' in obj && 'quantity' in obj && 'details' in obj;
+    return 'id' in obj; 
+        // && 'quantity' in obj 
+        // && 'details' in obj;
 }
