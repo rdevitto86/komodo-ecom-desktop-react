@@ -1,5 +1,5 @@
-import { RequestHeaders } from '../../src/common/headers/request';
-import { GETRequest } from '../../src/common/requests/get';
+import { RequestHeaders } from '../../common/headers/request';
+import { GETRequest } from '../../common/requests/get';
 
 /**
  * HTTP request for getCategoryItems operation

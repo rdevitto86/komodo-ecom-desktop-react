@@ -1,12 +1,8 @@
 /**
  * Defines an abstract OrderLineItem object
  */
- export interface OrderLineItemJSON {
+export interface OrderLineItemJSON {
     id: string;
-    // details: CatalogItemJSON;
-    // basePrice: number;
-    // quantity: number;
-    // netCost: number;
 }
 
 /**
@@ -15,7 +11,5 @@
  * @returns {boolean} true/false
  */
 export function isOrderLineItem(obj: any): obj is OrderLineItemJSON {
-    return 'id' in obj; 
-        // && 'quantity' in obj 
-        // && 'details' in obj;
+    return 'id' in obj;
 }

@@ -1,7 +1,7 @@
 import Address from '../address/address.model';
 import Company from './company.model';
 
-describe('Company Model tests', () => {
+describe('Company tests', () => {
     const mockAddress = new Address();
 
     const fullMock = new Company({
@@ -20,13 +20,7 @@ describe('Company Model tests', () => {
     });
 
     test('model with all properties', () => {
-        const {
-            name,
-            contactName,
-            contactPhone,
-            contactEmail,
-            address,
-        } = fullMock;
+        const { name, contactName, contactPhone, contactEmail, address } = fullMock;
 
         expect(name).toBe('Business 123');
         expect(contactName).toBe('Sam Adams');
@@ -36,13 +30,8 @@ describe('Company Model tests', () => {
     });
 
     test('model with partial properties', () => {
-        const {
-            name,
-            contactName,
-            contactPhone,
-            contactEmail,
-            address,
-        } = partialMock;
+        const { name, contactName, contactPhone, contactEmail, address } =
+            partialMock;
 
         expect(name).toBe('Business 456');
         expect(contactName).toBe('Ben Hana');
@@ -52,13 +41,8 @@ describe('Company Model tests', () => {
     });
 
     test('model with no params', () => {
-        const {
-            name,
-            contactName,
-            contactPhone,
-            contactEmail,
-            address,
-        } = new Company();
+        const { name, contactName, contactPhone, contactEmail, address } =
+            new Company();
 
         expect(name).toBe(null);
         expect(contactName).toBe(null);
@@ -68,13 +52,8 @@ describe('Company Model tests', () => {
     });
 
     test('mapping one Company model to another', () => {
-        const {
-            name,
-            contactName,
-            contactPhone,
-            contactEmail,
-            address,
-        } = new Company(fullMock);
+        const { name, contactName, contactPhone, contactEmail, address } =
+            new Company(fullMock);
 
         expect(name).toBe('Business 123');
         expect(contactName).toBe('Sam Adams');

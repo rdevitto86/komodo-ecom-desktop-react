@@ -1,198 +1,99 @@
 import OrderLineItem from '../order-line-item/order-line-item.model';
-import { 
-    InvoiceStates, 
-    isOrder, 
+import {
+    InvoiceStatusCode,
+    isOrder,
     OrderJSON,
 } from '../../npm/kfs-api/src/order-api/schemas/order';
+import { CatalogItem } from 'src/npm/kfs-api/src/catalog-api/schemas/catalog-item';
 
 /**
  * Defines a new Order model
  */
 export default class Order {
-    /**
-     * Unique invoice indentifier.
-     * In-progress orders will be dentoed by the * character.
-     * Orders upon submission will have an auto-generated ID assigned to it.
-     */
     id: string = '*';
 
-    /**
-     * Invoice line items
-     */
-    lineItems: Map<string, OrderLineItem> = new Map();
+    status: string = null;
+    statusCode: InvoiceStatusCode = 1;
 
-    /**
-     * Invoice status indicator
-     */
-    status: number = 1;
+    lineItems = new Map<string, OrderLineItem>();
+    lineItemCount: number = 0;
 
-    /**
-     * Invoice total
-     */
     total: number = 0;
-
-    /**
-     * Invoice sub-total
-     */
     subTotal: number = 0;
 
-    /**
-     * Applied sales tax
-     */
-    salesTax: number = 0;
+    salesTaxTotal: number = 0;
+    salesTaxRate: number = 0;
 
-    /**
-     * Local sales tax rate
-     */
-    salesTaxRate: number = 1;
+    laborTotal: number = 0;
+    shippingTotal: number = 0;
 
-    /**
-     * Total shipping cost
-     */
-    shippingCost: number = 0;
+    fees: any[] = [];
+    feeTotal: number = 0;
+    feeCount: number = 0;
 
-    /**
-     * Shipping rate for an order
-     */
-    shippingRate: number = 0;
-
-    /**
-     * Invoice fees (ex. processing, expedited, etc)
-     */
-    fees: number = 0;
-
-    /**
-     * Tracking number(s) for ordered products
-     */
-    trackingNumbers: Map<string, string[]> = new Map();
-
-    /**
-     * Date(s) for scheduled service(s)
-     */
-    serviceDates: Map<string, string[]> = new Map();
-
-    /**
-     * Enables order-level promotions
-     */
     enablePromotions: boolean = false;
+    discountTotal: number = 0;
+    promotions: Map<string, any> = new Map();
 
-    /**
-     * Determines if the invoice model has changes
-     */
-    hasEdits: boolean = false;
-
-    /**
-     * Total number of order line items added
-     */
-    get totalLineItems() {
-        return this.lineItems.size;
-    }
+    technicians: any[] = [];
+    serviceDates = new Map<string, string[]>();
 
     /**
      * @param {OrderJSON | Order} [props] invoice details object
      */
     constructor(props?: OrderJSON | Order) {
         if (isOrder(props)) {
-            const {
-                id,
-                status,
-                lineItems,
-                total,
-                subTotal,
-                salesTax,
-                salesTaxRate,
-                shippingCost,
-                shippingRate,
-                fees,
-                trackingNumbers,
-                serviceDates,
-                enablePromotions,
-            } = props;
+            Object.assign(this, props);
 
-            this.id = id;
-            this.total = total;
-            this.subTotal = subTotal;
-            this.salesTax = salesTax;
-            this.salesTaxRate = salesTaxRate;
-            this.shippingCost = shippingCost;
-            this.shippingRate = shippingRate;
-            this.fees = fees;
+            const { lineItems } = props;
 
-            // set order status
-            if (typeof status === 'number' && InvoiceStates[status]) {
-                this.status = status;
-            }
-
-            // set order line items
             if (lineItems instanceof Array) {
                 for (const item of lineItems) {
-                    if (item) {
-                        this.lineItems.set(item.id, new OrderLineItem(item));
-                    }
-                }
-            }
-
-            if (enablePromotions) {
-                this.enablePromotions = true;
-            }
-
-            // set item tracking number(s)
-            if (trackingNumbers && typeof trackingNumbers === 'object') {
-                const keys = Object.keys(trackingNumbers);
-                for (let i = 0, len = keys.length; i < len; i++) {
-                    const key = keys[i];
-                    this.trackingNumbers.set(key, trackingNumbers[key]);
-                }
-            }
-
-            // set item service date(s)
-            if (serviceDates && typeof serviceDates === 'object') {
-                const keys = Object.keys(serviceDates);
-                for (let i = 0, len = keys.length; i < len; i++) {
-                    const key = keys[i];
-                    this.serviceDates.set(key, serviceDates[key]);
+                    this.lineItems.set(item.id, new OrderLineItem(item));
                 }
             }
         }
     }
 
-    // /**
-    //  * Adds a new line item to the invoice
-    //  * @param {CatalogItem} item new invoice line item
-    //  * @param {number} quantity total quantity added
-    //  */
-    // addLineItem(item: CatalogItem, quantity: number) {
-    //     // TODO
-    // }
-
-    // /**
-    //  * Increases line item quantity by 1
-    //  * @param {string} id line-item identifier
-    //  */
-    // incramentLineItem(id: string) {
-    //     // TODO
-    // }
-
-    // /**
-    //  * Decreases line item quantity by 1
-    //  * @param {string} id line-item identifier
-    //  */
-    // decramentLineItem(id: string) {
-    //     // TODO
-    // }
+    /**
+     * Adds a new line item to the invoice
+     * @param {CatalogItem} item new invoice line item
+     * @param {number} [quantity] number if items added
+     */
+    addLineItem(item: CatalogItem, quantity?: number) {
+        // TODO
+    }
 
     /**
-     * Removes a line item from the invoice
+     * Removes a line item from invoice
      * @param {string} id line item identifier
      */
     removeLineItem(id: string) {
-        const item = this.lineItems.get(id);
-        if (item) {
+        if (this.lineItems.get(id)) {
             this.lineItems.delete(id);
-            this._rebalance(item);
-            // this.hasEdits = true;
-        } else {
-            // TODO - logger
+            this.recalculate();
+        }
+    }
+
+    /**
+     * Increases line item quantity
+     * @param {string} id line item identifier
+     * @param {number} [quantity] number if items added
+     */
+    incramentLineItem(id: string, quantity?: number) {
+        if (this.lineItems.get(id)) {
+            this.recalculate();
+        }
+    }
+
+    /**
+     * Decreases line item quantity
+     * @param {string} id line item identifier
+     * @param {number} [quantity] number if items removed
+     */
+    decramentLineItem(id: string, quantity?: number) {
+        if (this.lineItems.get(id)) {
+            this.recalculate();
         }
     }
 
@@ -200,53 +101,17 @@ export default class Order {
      * Checks if the order has a given line item
      * @param {string} id line item identifier
      */
-    hasLineItem(id: string) {
+    hasItem(id: string) {
         return this.lineItems.has(id);
     }
 
     /**
-     * Adds a tracking number to a line item
-     * @param {string} trackingNumber tracking number to add
-     * @param {string[]} lineItemIDs IDs for associated line items
+     * Resets invoice
      */
-    addTrackingNumber(trackingNumber: string, lineItemIDs: string[]) {
-        this.trackingNumbers.set(trackingNumber, lineItemIDs);
-        // this.hasEdits = true;
-    }
+    clearInvoice() {}
 
     /**
-     * Adds a service date to a line item
-     * @param {string} serviceDate service date to add
-     * @param {string[]} lineItemIDs IDs for associated line items
+     *
      */
-    addServiceDate(serviceDate: string, lineItemIDs: string[]) {
-        this.serviceDates.set(serviceDate, lineItemIDs);
-        // this.hasEdits = true;
-    }
-
-    /**
-     * Clears line items and resets invoice values
-     */
-    clearLineItems() {
-        this.total = 0;
-        this.subTotal = 0;
-        this.salesTax = 0;
-        this.shippingCost = 0;
-        this.fees = 0;
-        this.lineItems.clear();
-        this.trackingNumbers.clear();
-        this.serviceDates.clear();
-        // this.hasEdits = true;
-    }
-
-    /**
-     * Adjusts order pricing when items are added/removed
-     * @private
-     * @param {OrderLineItem} item updated item
-     */
-    private _rebalance(item: OrderLineItem) {
-        if (item instanceof OrderLineItem) {
-            // TODO
-        }
-    }
+    private recalculate() {}
 }

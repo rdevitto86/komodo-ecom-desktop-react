@@ -1,10 +1,10 @@
-import { isString } from 'class-validator';
-import HTTP from 'src/npm/kfs-web/src/http';
-import HttpException from 'src/npm/kfs-web/src/http-exceptions';
+import HTTP from '../npm/kfs-https/src/http';
+import HttpException from '../npm/kfs-https/src/http-exceptions';
+import { CatalogItemJSON } from '../npm/kfs-api/src/catalog-api/schemas/catalog-item';
 import CatalogItem from '../models/catalog-item/catalog-item.model';
 import { GetItemResponse } from '../npm/kfs-api/src/catalog-api/responses/get-item';
 import { GetCategoryItemsResponse } from '../npm/kfs-api/src/catalog-api/responses/get-items';
-import { CatalogItemJSON } from '../npm/kfs-api/src/catalog-api/types/catalog-item';
+import { IsString } from '../npm/kfs-util/src/strings/validations';
 
 // TODO - move to api lib under requests
 // TODO - move query param appendage logic to request object
@@ -13,7 +13,7 @@ import { CatalogItemJSON } from '../npm/kfs-api/src/catalog-api/types/catalog-it
  * Handles requests and responses for the Catalog API
  */
 export default class CatalogService {
-    readonly API_URL = process.env.CATALOG_API_URL || '';
+    private readonly API_URL = process.env.CATALOG_API_URL;
 
     /**
      * Fetches a catalog item's information (i.e. product/service)
@@ -23,17 +23,14 @@ export default class CatalogService {
      * @throws {ServiceException} service exception
      */
     async getItem(id: string): Promise<CatalogItem> {
-        if (!isString(id)) {
+        if (!IsString(id)) {
             throw new HttpException(400, 'invalid id param');
         }
 
-        const request = new Request(
-            `${this.API_URL}/item/${id}`, 
-            {
-                method: 'GET',
-                // TODO other params
-            },
-        );
+        const request = new Request(`${this.API_URL}/item/${id}`, {
+            method: 'GET',
+            // TODO other params
+        });
 
         const response = await HTTP.GET(request);
         const body = response.json() as unknown as GetItemResponse;
@@ -52,18 +49,15 @@ export default class CatalogService {
      * @throws {ServiceException} service exception
      */
     async getCategoryItems(catID: string | number): Promise<CatalogItem[]> {
-        if (!isString(catID)) {
+        if (!IsString(catID)) {
             throw new HttpException(400, 'invalid category id param');
         }
 
-        const request = new Request(
-            `${this.API_URL}/category?id=${catID}`, 
-            {
-                method: 'GET',
-                // TODO other params
-            },
-        );
-        
+        const request = new Request(`${this.API_URL}/category?id=${catID}`, {
+            method: 'GET',
+            // TODO other params
+        });
+
         const response = await HTTP.GET(request);
         const body = response.json() as unknown as GetCategoryItemsResponse;
 
@@ -75,11 +69,9 @@ export default class CatalogService {
 
                 // iterate through response items and build local models
                 for (let i = 0, len = items.length; i < len; i++) {
-                    const item = items[i];
+                    const item = items[i] as CatalogItemJSON;
                     if (item) {
-                        categoryItems.push(
-                            new CatalogItem(item as CatalogItemJSON),
-                        );
+                        categoryItems.push(new CatalogItem(item));
                     }
                 }
                 return categoryItems;
@@ -98,7 +90,7 @@ export default class CatalogService {
      * @throws {ServiceException} service exception
      */
     // async search(keyword: string, category?: string): Promise<CatalogItem[]> {
-    //     if (!isString(keyword)) {
+    //     if (!IsString(keyword)) {
     //         throw new HttpException(400, 'invalid search keyword param');
     //     }
 

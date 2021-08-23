@@ -17,7 +17,6 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "class-validator": "*",
     "react": "*",
     "react-dom": "*",
     "react-router-dom": "*",
@@ -47,6 +46,7 @@
     "eslint-plugin-react-hooks": "*",
     "jest": "*",
     "node-sass": "*",
+    "prettier": "*",
     "react-test-renderer": "*",
     "typescript": "*"
   },

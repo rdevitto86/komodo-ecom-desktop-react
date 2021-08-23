@@ -3,8 +3,8 @@
 // import { UserAPIHeaders } from '../npm/kfs-api/user-api/headers';
 // import { GetAccountInfoResponse } from '../npm/kfs-api/user-api/responses';
 // import User from '../models/users/user.model';
-// import { 
-//     isUser, 
+// import {
+//     isUser,
 //     UserJSON,
 // } from '../npm/kfs-api/user-api/schemas/user';
 // import { KEY_SESH_ACCESS_TOKEN } from '../config/session-storage.config';
@@ -14,7 +14,7 @@
  * Handles requests/responses for the User API
  */
 export default class UserService {
-    readonly API_URL = process.env.USER_API_URL || '';
+    private readonly API_URL = process.env.USER_API_URL;
 
     /**
      * Fetches a user's account information

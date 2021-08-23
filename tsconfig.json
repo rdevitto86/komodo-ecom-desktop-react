@@ -18,9 +18,9 @@
     "jsx": "react",                                     /* TODO - check which format works best for client + server */
     "lib": [                                            /* TODO - check which format works best for client + server */
       "DOM",
-      "ES2020"
+      "ESNEXT"
     ],
-    "module": "ES2020",                                 /* TODO - check which format works best for client + server */
+    "module": "ESNEXT",                                 /* TODO - check which format works best for client + server */
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
@@ -28,7 +28,8 @@
     "removeComments": true,
     "resolveJsonModule": true,            
     "sourceMap": true,                                  /* TODO - any benefit? */                            
-    "target": "ES2020"                                  /* TODO - check which format works best for client + server */
+    "target": "ESNEXT",                                 /* TODO - check which format works best for client + server */
+    "types": []                                         /* TODO - check which format works best for client + server */
   },
   "include": [
     "src",

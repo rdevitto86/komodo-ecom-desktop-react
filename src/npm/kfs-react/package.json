@@ -4,6 +4,16 @@
     "description": "TODO",
     "license": "",
     "private": true,
+    "dependencies": {
+        "react": "*",
+        "react-dom": "*",
+        "react-router-dom": "*",
+        "react-scripts": "*"
+    },
     "peerDependencies": {},
-    "devDependencies": {}
+    "devDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "@types/react-router-dom": "*"
+    }
 }

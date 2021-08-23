@@ -7,9 +7,9 @@
 // import HttpException from '../npm/kfs-web/http-exceptions';
 // import { isString } from '../npm/kfs-util/validations/primitives/strings';
 // import { LoginResponse } from '../npm/kfs-api/security-api/responses';
-// import { 
-//     LoginHeaders, 
-//     LogoutHeaders, 
+// import {
+//     LoginHeaders,
+//     LogoutHeaders,
 //     ValidateSessionHeaders,
 // } from '../npm/kfs-api/security-api/headers';
 
@@ -17,7 +17,7 @@
  * Handles requests/responses for the Security API
  */
 export default class SecurityService {
-    readonly API_URL = process.env.AUTH_API_URL || '';
+    private readonly API_URL = process.env.AUTH_API_URL;
 
     /**
      * Logs a user into the current session

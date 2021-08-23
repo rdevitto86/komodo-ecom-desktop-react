@@ -10,7 +10,7 @@
  * Handles requests/responses for the Order service
  */
 export default class OrderService {
-    readonly API_URL = process.env.ORDER_API_URL || '';
+    private readonly API_URL = process.env.ORDER_API_URL;
 
     /**
      * Fetches information for a specified order
