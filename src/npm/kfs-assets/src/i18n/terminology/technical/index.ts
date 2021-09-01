@@ -1,3 +1,1 @@
-import { i18nJSON } from '../..';
-
-export const TechnicalTerms: i18nJSON = Object.freeze({});
+export const TechnicalTerms = Object.freeze({});

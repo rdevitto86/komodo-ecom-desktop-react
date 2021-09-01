@@ -1,7 +1,7 @@
 {
-    "name": "kfs-api",
+    "name": "@kfs/api",
     "version": "1.0.0",
-    "description": "TODO",
+    "description": "Shared entities, requests, responses, etc. used by domain layer APIs",
     "license": "",
     "private": true,
     "peerDependencies": {},

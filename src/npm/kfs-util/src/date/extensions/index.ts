@@ -2,9 +2,6 @@
 
 /**
  * Calculates the time difference between two dates
- * @param {Date} recent most recent date
- * @param {Date} previous past date
- * @returns {Object | undefined} difference between dates
  */
 export function difference(recent: Date, previous: Date) {
     if (!(recent instanceof Date) || !(previous instanceof Date)) {

@@ -7,7 +7,7 @@ import ListNode from './list-node';
  *  - remove: [best case] => O(1), [worst case] => O(n)
  *  - search => [best case] => O(1), [worst case] => O(n)
  */
-export default class LinkedList<T> {
+export class LinkedList<T> {
     /**
      * First node in list
      */
@@ -26,17 +26,60 @@ export default class LinkedList<T> {
     /**
      * @param {T} [data] data used in first list node
      */
-    constructor(data: T) {
+    constructor(data?: T) {
         if (data) {
             this.head = new ListNode(data);
         }
     }
 
     /**
+     * Searches for the first node with a given value
+     */
+    getValue(item: T): ListNode {
+        if (!item) {
+            return null;
+        }
+
+        let node = this.head;
+
+        while (node) {
+            if (node.value === item) {
+                return node;
+            }
+            node = node.next;
+        }
+        return null;
+    }
+
+    /**
+     * Searches for the first node with a given value
+     * @param {number} index array index syntax
+     */
+    getAt(index: number): ListNode {
+        if (typeof index !== 'number') {
+            return null;
+        }
+
+        let i = 0;
+        let node = this.head;
+
+        while (node) {
+            if (i++ === index) {
+                return node;
+            }
+            node = node.next;
+        }
+        return null;
+    }
+
+    /**
      * Adds a new leading node
-     * @param {T} item data of new node
      */
     insertHead(item: T) {
+        if (!item) {
+            return -1;
+        }
+
         const newNode = new ListNode(item, this.head);
 
         // adjust list after insertion
@@ -52,9 +95,12 @@ export default class LinkedList<T> {
 
     /**
      * Adds a new trailing node
-     * @param {T} item data of new node
      */
-    insertTail(item: T) {
+    insertTail(item: T): number {
+        if (!item) {
+            return -1;
+        }
+
         const newNode = new ListNode(item, null, this.tail);
 
         // adjust list after insertion
@@ -66,32 +112,68 @@ export default class LinkedList<T> {
 
         this.tail = newNode;
         this.size++;
+
+        // return index of node
+        return this.size - 1;
     }
 
-    // /**
-    //  * TODO - future enhancement
-    //  * @description adds a new node at a specific list index
-    //  * @param {any} item data of new node
-    //  * @param {number} index location in index to insert
-    //  */
-    // insertAt(item: any, index: number) {
+    /**
+     * Adds a new node at a specific index
+     * @param {number} index array index syntax
+     */
+    insertAt(item: T, index: number): number {
+        if (!item || typeof index !== 'number') return -1;
 
-    // }
+        let i = 0;
+        let inserted = false;
+        let current = this.head;
+
+        while (current) {
+            if (i++ === index) {
+                // TODO
+                inserted = true;
+                break;
+            }
+            current = current.next;
+        }
+        if (!inserted) {
+            return -1;
+        }
+
+        this.size++;
+        return this.size - 1; // return index of node
+    }
+
+    /**
+     * Sorts the linked list
+     */
+    sort(): void {}
+
+    /**
+     * Reverses the linked list
+     */
+    reverse(): void {
+        // new starting point of list
+        let reversed = this.tail;
+        let current = this.tail;
+
+        // TODO set new class head
+        // TODO set new class tail
+        // TODO reverse through nodes and set the prev/next values
+    }
 
     /**
      * Removes first node and adjusts list
-     * @returns {ListNode} value of removed node
      */
-    removeHead() {
-        // check if head exists
+    removeHead(): ListNode {
         if (!this.head) {
             return null;
         }
 
-        const { value, next } = this.head;
+        const oldHead = this.head;
 
         // set new head to removed head's next
-        this.head = next;
+        this.head = oldHead.next;
 
         // adjust list after removal
         if (this.head) {
@@ -101,23 +183,21 @@ export default class LinkedList<T> {
         }
 
         this.size--;
-        return value;
+        return oldHead;
     }
 
     /**
      * Removes last node and adjusts list
-     * @returns {ListNode} value of removed node
      */
-    removeTail() {
-        // check if tail exists
+    removeTail(): ListNode {
         if (!this.tail) {
             return null;
         }
 
-        const { value, prev } = this.tail;
+        const oldTail = this.tail;
 
         // set new tail to removed tail's next
-        this.tail = prev;
+        this.tail = oldTail.prev;
 
         // adjust list after removal
         if (this.tail) {
@@ -127,52 +207,12 @@ export default class LinkedList<T> {
         }
 
         this.size--;
-        return value;
-    }
-
-    // /**
-    //  * TODO - future enhancement
-    //  * removes a node at a specific list index
-    //  * @param {number} index location in index to insert
-    //  */
-    // removeAt(index: number) {
-
-    // }
-
-    // /**
-    //  * TODO - future enhancement
-    //  * sorts the linked list
-    //  */
-    // sort() {
-
-    // }
-
-    /**
-     * Searches for the first node with a given value
-     * @param {T} item data to match to exsisting node
-     * @returns {ListNode | undefined} node matching search item
-     */
-    search(item: T) {
-        let current = this.head;
-
-        // loop through list and find node with search item
-        while (current) {
-            // return node if value matches search item
-            if (current.value === item) {
-                return current;
-            }
-            // else move node iterator forward
-            current = current.next;
-        }
-        return undefined;
+        return oldTail;
     }
 
     /**
-     * Determines if an item exsists in the list
-     * @param {T} item data to match to exsisting node
-     * @returns {boolean} item exsists or not
+     * Removes a node at a specific list index
+     * @param {number} index array index syntax
      */
-    contains(item: T) {
-        return !!(this.search(item));
-    }
+    removeAt(index: number) {}
 }

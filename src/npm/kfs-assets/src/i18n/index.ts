@@ -1,14 +1,13 @@
-export type i18nJSON = {
-    [key: string]: string | number | Object;
-};
+// Languages
+export { en } from './languages/en';
+export { es } from './languages/es';
 
-export { KomodoDetails } from './terminology/internal/komodo-details';
-export { KomodoTerms } from './terminology/internal/komodo-terms';
-
+// Geography
 export * as Canada from './geography/ca';
 export * as Mexico from './geography/mx';
 export * as UnitedStates from './geography/us';
 
-// TODO format JSON to match i18Next lib???
-export { en } from './languages/en';
-export { es } from './languages/es';
+// Internal Terms and Phrases
+export * from './terminology/internal/komodo-details';
+export * from './terminology/internal/komodo-terms';
+export * from './terminology/technical';

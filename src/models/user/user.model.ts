@@ -1,10 +1,10 @@
-import PriorityQueue from 'src/npm/kfs-util/src/data-structures/priority-queue';
 import Address from '../address/address.model';
 import Company from '../company/company.model';
 import Order from '../order/order.model';
 import { isUser, UserJSON } from '../../npm/kfs-api/src/user-api/schemas/user';
 import { isAddress } from '../../npm/kfs-api/src/user-api/schemas/address';
 import { isCompany } from '../../npm/kfs-api/src/user-api/schemas/company';
+import { PriorityQueue } from 'src/npm/kfs-util/src/data-structures';
 
 /**
  * Defines a User object

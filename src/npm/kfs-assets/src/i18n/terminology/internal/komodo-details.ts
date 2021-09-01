@@ -1,4 +1,3 @@
-import { i18nJSON } from '../..';
 import { Abbreviation as CountryCode } from '../../geography/us';
 
 // TODO - simpler to break off into smaller JSON?
@@ -6,7 +5,7 @@ import { Abbreviation as CountryCode } from '../../geography/us';
 /**
  * Static information related to bussiness operations
  */
-export const KomodoDetails: i18nJSON = Object.freeze({
+export const KomodoDetails = Object.freeze({
     nameOfficial: 'Komodo Ventures, LLC.',
     nameShorthand: 'Komodo',
     nameAbbreviated: 'KFS',

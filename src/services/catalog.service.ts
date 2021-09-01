@@ -1,10 +1,11 @@
-import HTTP from '../npm/kfs-https/src/http';
-import HttpException from '../npm/kfs-https/src/http-exceptions';
-import { CatalogItemJSON } from '../npm/kfs-api/src/catalog-api/schemas/catalog-item';
+import HTTP from '../npm/kfs-browser/src/https/http';
+import HttpException from '../npm/kfs-browser/src/https/http-exceptions';
 import CatalogItem from '../models/catalog-item/catalog-item.model';
+
+import { CatalogItemJSON } from '../npm/kfs-api/src/catalog-api/schemas/catalog-item';
 import { GetItemResponse } from '../npm/kfs-api/src/catalog-api/responses/get-item';
 import { GetCategoryItemsResponse } from '../npm/kfs-api/src/catalog-api/responses/get-items';
-import { IsString } from '../npm/kfs-util/src/strings/validations';
+import { IsString } from '../npm/kfs-util/src/strings/util/validations';
 
 // TODO - move to api lib under requests
 // TODO - move query param appendage logic to request object
