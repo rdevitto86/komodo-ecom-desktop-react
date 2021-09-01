@@ -1,3 +1,0 @@
-describe('DataVault tests', () => {
-    test('', () => {});
-});

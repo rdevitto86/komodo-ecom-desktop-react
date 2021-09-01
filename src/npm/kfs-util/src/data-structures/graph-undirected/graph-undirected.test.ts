@@ -1,3 +1,0 @@
-describe('UndirectedGraph tests', () => {
-    test('', () => {});
-});
